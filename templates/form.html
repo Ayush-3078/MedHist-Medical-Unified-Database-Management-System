@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Patient</title>
+    <style>
+   body {
+        font-family: 'Segoe UI', sans-serif;
+        background: url('/static/image1.jpg') no-repeat center center fixed;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: flex-start;
+        padding-left: 120px; 
+        flex-direction: column;
+        min-height: 100vh; /* Ensure body covers full viewport height */
+    }
+    .container {
+        background: rgba(255, 255, 255, 0.95);
+        margin-top: 50px;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        width: 400px;
+    }
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-top: 15px;
+        font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        margin-top: 5px;
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+
+    input[type="submit"] {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    .link {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .link a {
+        text-decoration: none;
+        color: #007bff;
+        margin: 0 10px;
+    }
+
+    .link a:hover {
+        text-decoration: underline;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Enter Patient Details</h2>
+        <form method="POST">
+            <label for="name">Name</label>
+            <input type="text" name="name" required>
+
+            <label for="age">Age</label>
+            <input type="number" name="age" required>
+
+            <label for="gender">Gender</label>
+            <select name="gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+
+            <label for="address">Address</label>
+            <input type="text" name="address" required>
+
+            <label for="diagnosis">Diagnosis</label>
+            <input type="text" name="diagnosis" required>
+
+            <label for="medicines">Medicines</label>
+            <textarea name="medicines" rows="2" required></textarea>
+
+            <label for="medical_history">Medical History</label>
+            <textarea name="medical_history" rows="3" required></textarea>
+
+            <input type="submit" value="Submit">
+        </form>
+
+        <div class="link">
+            <a href="/view">🔍 View Patient by ID</a>
+            <a href="/appointments">📅 Schedule Appointment</a>
+            <a href="/view-appointments">🗓️ View Appointments</a>
+            <a href="/ai-assistant">🤖 AI Assistant</a>
+        </div>
+    </div>
+</body>
+</html>

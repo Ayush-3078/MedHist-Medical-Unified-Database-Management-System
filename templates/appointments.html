@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Schedule Appointment</title>
+    <style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: url('/static/medical-bg.jpg') no-repeat center center fixed;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: flex-start;
+        padding-left: 120px; 
+        flex-direction: column;
+    }
+
+    .container {
+        background: rgba(255, 255, 255, 0.95);
+        margin-top: 50px;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        width: 400px;
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-top: 15px;
+        font-weight: 600;
+    }
+
+    input, select, textarea {
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        margin-top: 5px;
+    }
+
+    input[type="submit"] {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #218838;
+    }
+
+    .link {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .link a {
+        text-decoration: none;
+        color: #007bff;
+        margin: 0 10px;
+    }
+
+    .link a:hover {
+        text-decoration: underline;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Schedule New Appointment</h2>
+        <form method="POST">
+            <label for="patient_id">Patient</label>
+            <select name="patient_id" required>
+                <option value="">Select Patient</option>
+                {% for patient in patients %}
+                <option value="{{ patient.patient_id }}">{{ patient.name }} (ID: {{ patient.patient_id }})</option>
+                {% endfor %}
+            </select>
+
+            <label for="appointment_date">Date</label>
+            <input type="date" name="appointment_date" required>
+
+            <label for="appointment_time">Time</label>
+            <input type="time" name="appointment_time" required>
+
+            <label for="reason">Reason</label>
+            <textarea name="reason" rows="3" required></textarea>
+
+            <input type="submit" value="Schedule Appointment">
+        </form>
+
+        <div class="link">
+            <a href="/">➕ Add New Patient</a>
+            <a href="/view-appointments">📅 View All Appointments</a>
+            <a href="/view">🔍 View Patient</a>
+            <a href="/ai-assistant">🤖 AI Assistant</a>
+        </div>
+    </div>
+</body>
+</html>

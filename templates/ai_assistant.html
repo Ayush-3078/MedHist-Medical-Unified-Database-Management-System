@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Medical Assistant</title>
+    <style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: url('/static/image2.jpg') no-repeat center center fixed;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: flex-start;
+        padding-left: 120px; 
+        flex-direction: column;
+    }
+
+    .container {
+        background: rgba(255, 255, 255, 0.95);
+        margin-top: 50px;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        width: 800px;
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+
+    .ai-tool {
+        background: #f0f8ff;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 10px 0;
+    }
+
+    button, input[type="submit"] {
+        background: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+        font-size: 16px;
+    }
+
+    button:hover, input[type="submit"]:hover {
+        background: #45a049;
+    }
+
+    #ai-response {
+        background: #e9f7ef;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 15px;
+        white-space: pre-wrap;
+    }
+
+    .error-message {
+        color: red;
+        padding: 10px;
+        background: #ffeeee;
+        border-radius: 5px;
+        margin-bottom: 15px;
+    }
+
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        margin-top: 5px;
+        min-height: 100px;
+    }
+
+    .link {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .link a {
+        text-decoration: none;
+        color: #007bff;
+        margin: 0 10px;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>AI Medical Assistant</h2>
+
+        {% if error %}
+        <div class="error-message">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+            <label>Select Patient (for context)</label>
+            <select name="patient_id">
+                <option value="">General Question</option>
+                {% for patient in patients %}
+                <option value="{{ patient.patient_id }}"
+                    {% if selected_patient_id == patient.patient_id %}selected{% endif %}>
+                    {{ patient.name }} (ID: {{ patient.patient_id }})
+                </option>
+                {% endfor %}
+            </select>
+
+            <label>Your Medical Question</label>
+            <textarea name="question" rows="5" required>{% if request.form.get('question') %}{{ request.form.get('question') }}{% endif %}</textarea>
+
+            <input type="submit" value="Ask AI">
+        </form>
+
+        {% if response %}
+        <div id="ai-response">
+            <strong>AI Response:</strong><br>
+            {{ response }}
+        </div>
+        {% endif %}
+
+        <div class="ai-tools">
+            <button onclick="predictMedicine()">💊 Predict Medicines</button>
+            <button onclick="predictRecovery()">⏱️ Estimate Recovery</button>
+        </div>
+
+        <div class="link">
+            <a href="/">👨‍⚕️ Back to Patient Management</a>
+        </div>
+    </div>
+
+    <script>
+    function predictMedicine() {
+        const diagnosis = prompt("Enter diagnosis:");
+        if (diagnosis) {
+            fetch('/api/predict-medicine', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ diagnosis })
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(`Recommended Medicines:\n${data.medicines}\n\nConfidence: ${Math.round(data.confidence * 100)}%`);
+            });
+        }
+    }
+
+    function predictRecovery() {
+        const diagnosis = prompt("Enter diagnosis:");
+        const age = prompt("Enter patient age:");
+        if (diagnosis && age) {
+            fetch('/api/predict-recovery', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ diagnosis, age })
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(`Estimated Recovery:\n${data.days} days (by ${data.date})`);
+            });
+        }
+    }
+    </script>
+</body>
+</html>

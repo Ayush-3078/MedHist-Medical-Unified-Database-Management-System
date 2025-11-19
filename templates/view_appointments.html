@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Appointments</title>
+    <style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: url('/static/image3.jpg') no-repeat center center fixed;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: flex-start;
+        padding-left: 120px; 
+        flex-direction: column;
+    }
+
+    .container {
+        background: rgba(255, 255, 255, 0.95);
+        margin-top: 50px;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        width: 800px;
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        font-weight: 600;
+    }
+
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    .status-scheduled {
+        color: #17a2b8;
+        font-weight: bold;
+    }
+
+    .status-completed {
+        color: #28a745;
+        font-weight: bold;
+    }
+
+    .status-cancelled {
+        color: #dc3545;
+        font-weight: bold;
+    }
+
+    .link {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .link a {
+        text-decoration: none;
+        color: #007bff;
+        margin: 0 10px;
+    }
+
+    .link a:hover {
+        text-decoration: underline;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Appointments Schedule</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Patient</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appt in appointments %}
+                <tr>
+                    <td>{{ appt.appointment_id }}</td>
+                    <td>{{ appt.patient_name }} (ID: {{ appt.patient_id }})</td>
+                    <td>{{ appt.appointment_date }}</td>
+                    <td>{{ appt.appointment_time.strftime('%H:%M') if appt.appointment_time else '' }}</td>
+                    <td>{{ appt.reason }}</td>
+                    <td class="status-{{ appt.status.lower() }}">{{ appt.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="link">
+            <a href="/appointments">➕ Schedule New Appointment</a>
+            <a href="/">👨‍⚕️ Add Patient</a>
+            <a href="/view">🔍 View Patient</a>
+            <a href="/ai-assistant">🤖 AI Assistant</a>
+        </div>
+    </div>
+</body>
+</html>
